@@ -1,9 +1,75 @@
-= HubPress でブログ始めました。
+= Adoc 記法スニペット
+
+== h2
+
+http://github.com[Github]
+
+image::http://blog.kozyty.com/images/robot-916284_1280.jpg[]
+
+* hoge1
+* hoge2
+** hoge2-1
+
+*bold* +
+_italic_ +
+`monospace` +
 
 
-まだ色々とデフォルトのままですが、どうぞよろしくお願いします。
+HOGE:: hogeの説明
 
+[source, ruby]
+----
+def hoge
+  // ほげ
+  return if fuga.present?
+  "テスト"
+  %|テスト|
+	
+end
+----
+
+video::KCylB780zSM[youtube]
+
+video::67480300[vimeo]
+
+
+.テーブルタイトル
+[options="header"]
+|=======================
+|Col 1|Col 2      |Col 3
+|1    |Item 1     |a
+|2    |Item 2     |b
+|3    |Item 3     |c
+|=======================
+
+[format="csv"]
+|======
+1,2,3,4
+a,b,c,d
+A,B,C,D
+|======
+
+[quote, 'https://ja.wikipedia.org/wiki/%E8%BB%BD%E9%87%8F%E3%83%9E%E3%83%BC%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%E8%A8%80%E8%AA%9E[Wikipedia:軽量マークアップ言語]']
+____
+軽量マークアップ言語（けいりょうマークアップげんご、
+英語: lightweight markup language）は、
+人間がシンプルなテキストエディタを使っての
+入力が容易になるように設計された、
+簡潔な文法をもつマークアップ言語である。
+____
+
+
+++++
+<ruby>
+  <rb>亜米利加</rb>
+  <rp>（</rp>
+  <rt> アメリカ</rt>
+  <rp> ）</rp>
+</ruby>
+++++
+
+// Meta情報
 :hp-alt-title: First Post
-:hp-tags: memo
+:hp-tags: adoc, sandbox, snippet
 :published_at: 2016-04-01
 :hp-image: http://blog.kozyty.com/images/robot-916284_1280.jpg
