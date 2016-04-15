@@ -1,29 +1,29 @@
 {
-  meta: {
-    username: "kozytypress",
-    repositoryName: "kozytypress.github.io",
-    branch: "master",
-    cname: "blog.kozyty.com",
-    delay: "500"
+  "meta": {
+    "username": "kozytypress",
+    "repositoryName": "kozytypress.github.io",
+    "branch": "master",
+    "cname": "blog.kozyty.com",
+    "delay": "500"
     
   },
-  site: {
-    title: "KozytyPress",
-    logo: "http://blog.kozyty.com/img/logo.png",
-    postsPerPage: "10",
-    googleAnalytics: "UA-76452349-1",
-    disqus: "kozytypress",
-    url: "http://blog.kozytypress.com"
+  "site": {
+    "title": "KozytyPress",
+    "logo": "http://blog.kozyty.com/img/logo.png",
+    "postsPerPage": "10",
+    "googleAnalytics": "UA-76452349-1",
+    "disqus": "kozytypress",
+    "url": "http://blog.kozytypress.com"
     
   },
-  socialnetwork: {
-    twitter: "https://twitter.com/kozyty",
-    github: "https://github.com/kozyty"
+  "socialnetwork": {
+    "twitter": "https://twitter.com/kozyty",
+    "github": "https://github.com/kozyty"
     
   },
-  theme: {
-    name: "Roon",
-    url: "//blog.kozyty.com/themes/Roon"
+  "theme": {
+    "name": "Roon",
+    "url": "//blog.kozyty.com/themes/Roon"
     
   }
 }
