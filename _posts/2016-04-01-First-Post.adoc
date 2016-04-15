@@ -28,11 +28,6 @@ def hoge
 end
 ----
 
-[source, python]
-----
-include::test.py[]
-----
-
 video::KCylB780zSM[youtube]
 
 video::67480300[vimeo]
