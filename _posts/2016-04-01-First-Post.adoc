@@ -6,4 +6,4 @@
 :hp-alt-title: First Post
 :hp-tags: memo
 :published_at: 2016-04-01
-:hp-image: https://github.com/KozytyPress/kozytypress.github.io/images/robot-916284_1280.jpg
+:hp-image: http://blog.kozyty.com/images/robot-916284_1280.jpg
