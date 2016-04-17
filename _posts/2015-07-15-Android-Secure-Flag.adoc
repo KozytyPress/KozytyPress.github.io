@@ -65,3 +65,8 @@ Android 5.0 以降であれば、`MediaProjection API` を使うことで録画�
 > The API only allows capturing non-secure screen content, and not system audio. 
 
 ドキュメントをみていて、この一文があったので回避できるのは間違いないようだったのですが、肝心の回避方法がこのドキュメントではわからず困っていました。そんなとき一緒に調べてくれて見つけてくれたのが、[@t-kashima](http://qiita.com/t-kashima)でした本当にありがとう。助かりました。
+
+// Meta情報
+:hp-alt-title: Android Secure Flag
+:hp-tags: android
+:published_at: 2015-07-15
