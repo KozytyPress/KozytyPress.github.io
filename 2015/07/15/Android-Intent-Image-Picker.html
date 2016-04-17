@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Android 2系~5系で動く、intentでの画像取得と起動アプリ調整</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-57x57.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="60x60" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-60x60.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="72x72" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-72x72.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="76x76" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-76x76.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="114x114" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-114x114.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="120x120" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-120x120.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="144x144" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-144x144.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="152x152" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-152x152.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="//blog.kozyty.com/themes/uno-zen/assets/img/apple-touch-icon-180x180.png?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="icon" type="image/png" href="//blog.kozyty.com/themes/uno-zen/assets/img/favicon-32x32.png?v=wAAv6Wqe6l?v=1.0.0" sizes="32x32">
+    <link rel="icon" type="image/png" href="//blog.kozyty.com/themes/uno-zen/assets/img/favicon-194x194.png?v=wAAv6Wqe6l?v=1.0.0" sizes="194x194">
+    <link rel="icon" type="image/png" href="//blog.kozyty.com/themes/uno-zen/assets/img/favicon-96x96.png?v=wAAv6Wqe6l?v=1.0.0" sizes="96x96">
+    <link rel="icon" type="image/png" href="//blog.kozyty.com/themes/uno-zen/assets/img/android-chrome-192x192.png?v=wAAv6Wqe6l?v=1.0.0" sizes="192x192">
+    <link rel="icon" type="image/png" href="//blog.kozyty.com/themes/uno-zen/assets/img/favicon-16x16.png?v=wAAv6Wqe6l?v=1.0.0" sizes="16x16">
+    <link rel="manifest" href="//blog.kozyty.com/themes/uno-zen/assets/img/manifest.json?v=wAAv6Wqe6l?v=1.0.0">
+    <link rel="shortcut icon" href="//blog.kozyty.com/themes/uno-zen/assets/img/favicon.ico?v=wAAv6Wqe6l?v=1.0.0">
+    <meta name="msapplication-TileColor" content="#67983A">
+    <meta name="msapplication-TileImage" content="//blog.kozyty.com/themes/uno-zen/assets/img/mstile-144x144.png?v=wAAv6Wqe6l?v=1.0.0">
+    <meta name="msapplication-config" content="//blog.kozyty.com/themes/uno-zen/assets/img/browserconfig.xml?v=wAAv6Wqe6l?v=1.0.0">
+    <meta name="theme-color" content="#67983A">
+    <link rel="stylesheet" type="text/css" href="//blog.kozyty.com/themes/uno-zen/assets/css/uno-zen.css?v=1.0.0" />
+    <link rel="canonical" href="http://blog.kozyty.com/2015/07/15/Android-Intent-Image-Picker.html" />
+    
+    <meta property="og:site_name" content="Taiyo Kojima" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Android 2系~5系で動く、intentでの画像取得と起動アプリ調整" />
+    <meta property="og:description" content="もともとはシンプル Intent intent = new Intent(); intent.setAction(Intent.ACTION_PICK); intent.setType(&quot;image/*&quot;); startActivityForResult(intent, REQUEST_CODE); こんな感じで対応すれば動いていましたが、kitkatから対応方法が変わったのは有名ですね。 https://developer.android.com/reference/android/content/Intent.html 最初の対応方法 if (is..." />
+    <meta property="og:url" content="http://blog.kozyty.com/2015/07/15/Android-Intent-Image-Picker.html" />
+    <meta property="article:published_time" content="2015-07-14T15:00:00.000Z" />
+    <meta property="article:modified_time" content="2016-04-17T05:32:30.652Z" />
+    <meta property="article:tag" content="javascript" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Android 2系~5系で動く、intentでの画像取得と起動アプリ調整" />
+    <meta name="twitter:description" content="もともとはシンプル Intent intent = new Intent(); intent.setAction(Intent.ACTION_PICK); intent.setType(&quot;image/*&quot;); startActivityForResult(intent, REQUEST_CODE); こんな感じで対応すれば動いていましたが、kitkatから対応方法が変わったのは有名ですね。 https://developer.android.com/reference/android/content/Intent.html 最初の対応方法 if (is..." />
+    <meta name="twitter:url" content="http://blog.kozyty.com/2015/07/15/Android-Intent-Image-Picker.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Taiyo Kojima",
+    "author": {
+        "@type": "Person",
+        "name": "kozyty",
+        "image": "https://avatars.githubusercontent.com/u/1913134?v=3",
+        "url": "undefined/author/undefined",
+        "sameAs": null
+    },
+    "headline": "Android 2系~5系で動く、intentでの画像取得と起動アプリ調整",
+    "url": "http://blog.kozyty.com/2015/07/15/Android-Intent-Image-Picker.html",
+    "datePublished": "2015-07-14T15:00:00.000Z",
+    "dateModified": "2016-04-17T05:32:30.652Z",
+    "keywords": "javascript",
+    "description": "もともとはシンプル Intent intent = new Intent(); intent.setAction(Intent.ACTION_PICK); intent.setType(&quot;image/*&quot;); startActivityForResult(intent, REQUEST_CODE); こんな感じで対応すれば動いていましたが、kitkatから対応方法が変わったのは有名ですね。 https://developer.android.com/reference/android/content/Intent.html 最初の対応方法 if (is..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="Taiyo Kojima" href="http://blog.kozyty.com/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+  </head>
+  <body class="post-template tag-javascript">
+    <header id="menu-button" class="expanded">
+      <a><i class="icon icon-list"></i></a>
+    </header>
+    <aside class="cover" style="background: url(http://blog.kozyty.com/images/beach-927935_1280.jpg) center/cover no-repeat fixed">
+      <div class="cover container">
+        <div class="profile">
+          <a id="avatar-link" title="link to homepage for Taiyo Kojima" href="http://blog.kozyty.com/#open">
+            <img src="http://blog.kozyty.com/images/facebook_icon.jpg" alt="Taiyo Kojima avatar" class="profile avatar rounded hvr-buzz-out" />
+            <h1 id="profile-title">Taiyo Kojima</h1>
+            <h3 id="profile-resume"></h3>
+          </a>
+    
+          <hr class="divider long" />
+          <p>I&#x27;m a Software Engineer passionate about programming languages, web technologies and operating systems with vocation for hack the education, open source &amp; clean code.</p>
+          <hr class="divider short" />
+          <div class="navigation">
+            <div class="profile contact">
+              
+              <nav class="navigation right">
+                <ul class="social expanded">
+              
+              
+                  <!-- Twitter -->
+                  <li class="social item hvr-grow-rotate">
+                    <a rel="me" href="https://twitter.com/kozyty" title="Twitter account">
+                      <i class='icon icon-social-twitter'></i>
+                      <span class="label">Twitter</span>
+                    </a>
+                  </li>
+              
+              
+                  <!-- Github -->
+                  <li class="social item hvr-grow-rotate">
+                    <a rel="me" href="https://github.com/kozyty" title="Github account">
+                      <i class='icon icon-social-github'></i>
+                      <span class="label">Github</span>
+                    </a>
+                  </li>
+                  </li>
+              
+              
+              
+              
+              
+              
+                </ul>
+              </nav>
+              <!-- <section class="icon icon-search" id="search-container">
+      <hr class="divider short" />
+      <form id="search-form">
+        <input type="text", name="search", placeholder="git, css, javascript,..." id="search-field" />
+      </form>
+    </section>
+     -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main>
+      <section id="search-results"></section>
+      <section class="content">
+        
+
+  <article class="post tag-javascript">
+    <header>
+      <div class="post meta">
+        <time datetime="15 Jul 2015">15 Jul 2015</time>
+        <span class="post tags">in <a href="http://blog.kozyty.com/tag/javascript">javascript</a></span>
+
+
+        <span class="post reading-time"> ~ <span></span> read.</span>
+      </div>
+      <a alt="Tweet 'Android 2系~5系で動く、intentでの画像取得と起動アプリ調整'" href="https://twitter.com/intent/tweet?text=Android%202%E7%B3%BB~5%E7%B3%BB%E3%81%A7%E5%8B%95%E3%81%8F%E3%80%81intent%E3%81%A7%E3%81%AE%E7%94%BB%E5%83%8F%E5%8F%96%E5%BE%97%E3%81%A8%E8%B5%B7%E5%8B%95%E3%82%A2%E3%83%97%E3%83%AA%E8%AA%BF%E6%95%B4%20%C2%BB&amp;hashtags=javascript&amp;url=http://blog.kozyty.com/2015/07/15/Android-Intent-Image-Picker.html">
+        
+        <h1 class="icon-reverse icon-social-twitter-post" id="post-title">Android 2系~5系で動く、intentでの画像取得と起動アプリ調整</h1>
+      </a>
+    </header>
+
+    <div id="post-content" class="post tag-javascript">
+      <div class="sect1">
+<h2 id="__">もともとはシンプル</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Java" data-lang="Java">Intent intent = new Intent();
+intent.setAction(Intent.ACTION_PICK);
+intent.setType("image/*");
+startActivityForResult(intent, REQUEST_CODE);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>こんな感じで対応すれば動いていましたが、kitkatから対応方法が変わったのは有名ですね。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://developer.android.com/reference/android/content/Intent.html" class="bare">https://developer.android.com/reference/android/content/Intent.html</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="___2">最初の対応方法</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Java" data-lang="Java">if (isKitkat) {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    intent.addCategory(Intent.CATEGORY_OPENABLE);
+    intent.setType("image/*");
+    startActivityForResult(intent, REQUEST_CODE);
+} else {
+    Intent intent = new Intent();
+    intent.setType("image/*");
+    intent.setAction(Intent.ACTION_PICK);
+    startActivityForResult(intent, REQUEST_CODE);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>みたいな感じで、 <code>ACTION_OPEN_DOCUMENT</code> と <code>ACTION_PICK</code> を使い分けていました。</p>
+</div>
+<div class="paragraph">
+<p>が、この実装方法だと起動するアプリがドキュメントになっちゃうし、要件によってはちょっと使いづらいものになっちゃうんです。
+そうじゃないんだよ。俺は、 <code>フォト</code> とか <code>ギャラリー</code> アプリが起動して欲しいんだよ！って感じだったので調べました。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="___3">そこで対応したのがこちら</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Java" data-lang="Java">Intent intent = new Intent(Intent.ACTION_PICK,
+    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+intent.setType("image/*");
+
+startActivityForResult(
+    Intent.createChooser(
+        intent,
+        getResources().getString(chooseString)
+    ),
+    REQUEST_CODE);</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ACTION_PICK</code> に <code>MediaStore.Images.Media.EXTERNAL_CONTENT_URI</code> という <code>Uri</code> を渡します。</p>
+</li>
+<li>
+<p>今回は不要でしたが、要件に合わせて <code>intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);</code> など追加してください。</p>
+</li>
+<li>
+<p>ついでに、 <code>createChooser</code> することで起動アプリの選択も行うように修正しました。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>これで <code>intent.getData();</code> すれば <code>Uri</code> が取得できますよ。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="___4">別の話</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>上記対応をしていて、 <code>getData();</code> した返り値の処理が結構面倒でした。
+<code>content://com.google.android.apps.photos.contentprovider</code> の場合とか色々ですね。
+よかったら、みなさんも試してみてください。</p>
+</div>
+</div>
+</div>
+    </div>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- main-responsive -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8596502078273871" data-ad-slot="3811456396" data-ad-format="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <div class="post related">
+
+    </div>
+
+    <footer class="post comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        var disqus_shortname = 'kozytypress'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </footer>
+
+  </article>
+
+
+        <footer>
+          <span class="copyright">
+            &copy; 2016. All rights reserved. Built with <a href="https://github.com/Kikobeats/uno-zen" target="_blank">Uno Zen</a> under <a href="http://hubpress.io/" target="_blank">HubPress</a>.
+          </span>
+        </footer>
+      </section>
+    </main>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+    <script src="//blog.kozyty.com/themes/uno-zen/assets/js/uno-zen.js?v=1.0.0" type="text/javascript" charset="utf-8"></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-76452349-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
