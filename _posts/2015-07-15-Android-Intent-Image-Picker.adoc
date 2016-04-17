@@ -63,5 +63,5 @@ startActivityForResult(
 
 // Meta情報
 :hp-alt-title: Android Intent Image Picker
-:hp-tags: javascript
+:hp-tags: android
 :published_at: 2015-07-15
