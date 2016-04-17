@@ -1,0 +1,67 @@
+# Android 2系~5系で動く、intentでの画像取得と起動アプリ調整
+
+
+## もともとはシンプル
+
+```Java
+Intent intent = new Intent();
+intent.setAction(Intent.ACTION_PICK);
+intent.setType("image/*");
+startActivityForResult(intent, REQUEST_CODE);
+```
+
+こんな感じで対応すれば動いていましたが、kitkatから対応方法が変わったのは有名ですね。
+
+- https://developer.android.com/reference/android/content/Intent.html
+
+## 最初の対応方法
+```Java
+if (isKitkat) {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    intent.addCategory(Intent.CATEGORY_OPENABLE);
+    intent.setType("image/*");
+    startActivityForResult(intent, REQUEST_CODE);
+} else {
+    Intent intent = new Intent();
+    intent.setType("image/*");
+    intent.setAction(Intent.ACTION_PICK);
+    startActivityForResult(intent, REQUEST_CODE);
+}
+```
+
+みたいな感じで、 `ACTION_OPEN_DOCUMENT` と `ACTION_PICK` を使い分けていました。
+
+が、この実装方法だと起動するアプリがドキュメントになっちゃうし、要件によってはちょっと使いづらいものになっちゃうんです。
+そうじゃないんだよ。俺は、 `フォト` とか `ギャラリー` アプリが起動して欲しいんだよ！って感じだったので調べました。
+
+## そこで対応したのがこちら
+
+```Java
+Intent intent = new Intent(Intent.ACTION_PICK,
+    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+    
+intent.setType("image/*");
+
+startActivityForResult(
+    Intent.createChooser(
+        intent,
+        getResources().getString(chooseString)
+    ),
+    REQUEST_CODE);
+```
+
+- `ACTION_PICK` に `MediaStore.Images.Media.EXTERNAL_CONTENT_URI` という `Uri` を渡します。
+- 今回は不要でしたが、要件に合わせて `intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);` など追加してください。
+- ついでに、 `createChooser` することで起動アプリの選択も行うように修正しました。
+
+これで `intent.getData();` すれば `Uri` が取得できますよ。
+
+## 別の話
+上記対応をしていて、 `getData();` した返り値の処理が結構面倒でした。
+`content://com.google.android.apps.photos.contentprovider` の場合とか色々ですね。
+よかったら、みなさんも試してみてください。
+
+// Meta情報
+:hp-alt-title: Android Intent Image Picker
+:hp-tags: javascript
+:published_at: 2015-07-15
