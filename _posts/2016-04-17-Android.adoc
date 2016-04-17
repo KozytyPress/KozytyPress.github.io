@@ -1,0 +1,67 @@
+# [Android]スクショや画面録画などにより画面を保存されたくないときの回避方法
+
+
+## なぜ回避したいのか
+ちょっと個人的に、Android 5.0から可能になった。Screen Record（`MediaProjection API`）について、ユーザーが許可した場合であってもコンテンツ的に録画してほしくないものがあったので録画されないようにする手段はないか調べていたら見つけたので共有します。
+
+## やり方
+[WindowManager.LayoutParams | Android Developers](http://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#FLAG_SECURE)
+
+WindowManagerのLayoutParamsに `FLAG_SECURE` というものがあり、Activityなどで以下のように設定すればOKです。
+
+> Display flag: Indicates that the display has a secure video output and supports compositing secure surfaces.
+> If this flag is set then the display device has a secure video output and is capable of showing secure surfaces. It may also be capable of showing protected buffers. 
+
+[引用] : [Display | Android Developers](http://developer.android.com/reference/android/view/Display.html#FLAG_SECURE)
+
+
+```
+public class MainActivity extends Activity {
+
+    @Override  
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        setContentView(R.layout.main);
+    }
+}
+```
+
+## FLAG_SECUREで、どんなことができるのか
+以下に使用した例を記載しておきます。これでイメージ湧くのではないでしょうか。
+
+### ScreenShot（スクリーンショット）を無効化
+Android 4.0 からスクリーンキャプチャ（以下スクショ）がとれるようになりました。上記の設定をするとその画面をスクショしようとするとエラーが発生してスクショがとれなくなります。
+
+### ScreenRecord（スクリーンレコード）で画面を真っ黒にできる
+Android 5.0 から画面をキャストすることができるようになりました。（要アプリ使用）上記の設定をするとスクリーンレコード中であっても該当画面の録画はできず真っ黒な画面が録画されるだけになります。
+
+これにより、設定されている画面以外は録画できて、設定されている画面のときだけ画面が真っ黒になるのでユーザーとしても嬉しいですね。
+
+### TaskManager（タスクマネージャー）上で画面を真っ黒にできる
+みんな大好きタスクマネージャーですが、この画面でも上記の設定をすることで画面を黒くできます。
+
+## どんなときに使うか
+設定をすることで、良しなに画面を守ってくれるようになるので、権利問題やアプリの要件によっては容易に画面を共有できないようにしたい場合に有効です。
+
+実際、そういう場合って困るレベルの要件だったりするので少しでも誰かの助けになればと思います。
+便利ですね！ `FLAG_SECURE` !!
+
+## ちなみに
+Android 5.0 以降であれば、`MediaProjection API` を使うことで録画が可能です。アプリもいくつかあるみたいですね。
+
+### 試すならこれが良さ気でした。
+[Lollipop Screen Recorder - Google Play の Android アプリ](https://play.google.com/store/apps/details?id=com.rivulus.screenrecording&hl=ja)
+
+### いつもお世話になっているTechBoosterさん
+[Android 5.0 アプリからスクリーンショットを撮影する « Tech Booster](http://techbooster.org/android/application/17026/#more-17026)
+
+
+## 謝辞
+[Android 5.0 API | Android Developers](https://developer.android.com/intl/en/about/versions/android-5.0.html#UI)
+
+> ### Screen capturing and sharing
+> The API only allows capturing non-secure screen content, and not system audio. 
+
+ドキュメントをみていて、この一文があったので回避できるのは間違いないようだったのですが、肝心の回避方法がこのドキュメントではわからず困っていました。そんなとき一緒に調べてくれて見つけてくれたのが、[@t-kashima](http://qiita.com/t-kashima)でした本当にありがとう。助かりました。
