@@ -24,7 +24,7 @@ ____
 
 最初、stateObjをテキストにしていました。
 
-[source, javascript]
+[source, js]
 ----
 var stateObj = "bar";
 history.pushState(stateObj, "page 2", "bar.html");
@@ -38,7 +38,7 @@ history.pushState(stateObj, "page 2", "bar.html");
 
 解決後
 
-[source, javascript]
+[source, js]
 ----
 var stateObj = { foo: "bar" };
 history.pushState(stateObj, "page 2", "bar.html");
