@@ -71,5 +71,5 @@ ____
 // Meta情報
 :hp-alt-title: First Post
 :hp-tags: adoc, sandbox, snippet
-:published_at: 2015-04-01
+:published_at: 2014-04-01
 :hp-image: http://blog.kozyty.com/images/robot-916284_1280.jpg
