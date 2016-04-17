@@ -1,0 +1,99 @@
+= RailsでDragonflyを利用して動的に処理しつつS3側のCDNを設定する
+
+== これはなに？
+* Dragonflyを利用してリサイズなどの画像処理をしたい
+* リサイズ画像をS3に都度アップロードしたい
+* Railsではなくて、S3のbucketのドメインにCDNしたい。
+
+上記要件を達成するために、色々ゴニョった結果案外シンプルなことになったので、結果を共有というかメモしておきます。
+
+== 都度S3にアップロードする処理
+Dragonfly のドキュメントに一応載ってるけど、転載します。
+
+まずTableの作成、カラムが2つあればOK。
+
+* signatureは、sha部分が入ります。
+* uidは、s3のbucket以下のpathが入ります。
+
+[source, ruby, numbered, docdir='db/schemas/thumbnails.schema']
+----
+create_table "thumbnails", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  t.string   "signature",                limit: 191, null: false
+  t.string   "uid",                      limit: 255, null: false
+  t.datetime "created_at",                           null: false
+  t.datetime "updated_at",                           null: false
+end
+
+add_index "thumbnails", ["signature"], name: "xxxxx", unique: true, using: :btree
+----
+
+続いて、configureの設定
+
+[source, ruby, numbered, docdir='config/initializers/dragonfly.rb']
+----
+require 'dragonfly'
+require 'dragonfly/s3_data_store'
+
+Dragonfly.app.configure do
+  ...
+  define_url do |app, job, opts|
+    thumb = Thumb.find_by(signature: job.signature)
+    if thumb
+      app.datastore.url_for(thumb.uid)
+    else
+      app.server.url_for(job)
+    end
+  end
+
+  before_serve do |job, env|
+    uid = job.store
+    Thumb.create!(uid: uid, signature: job.signature)
+  end
+end
+...
+----
+
+注意点としては、S3DataStoreの `url_for` で期待するpathが返ってくるように設定する必要があります。
+
+- 参照: link:http://markevans.github.io/dragonfly/cache/#processing-on-the-fly-and-serving-remotely[processing-on-the-fly-and-serving-remotely]
+
+== Railsではなくて、S3のbucketのドメインにCDNしたい
+Dragonflyのドキュメントや、見つけた参考になりそうなQiitaなどは、みなさんサービスドメインに対してCDNを設定する前提になっているので、そうじゃなくて「`S3のバケットをCDNしたいんだよ！`」ということでゴニョりしました。
+
+[source, ruby, numbered, docdir='config/initializers/dragonfly.rb']
+----
+...
+  datastore :s3,
+      bucket_name:       ENV['S3_BUCKET_NAME'],
+      access_key_id:     ENV['AWS_ACCESS_KEY'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      url_scheme:        ENV['S3_SCHEME'],
+      url_host:          ENV['S3_CDN_HOST'],
+      region:            ENV['S3_REGION']
+
+...
+----
+
+* url_schemeは、httpsを利用する必要があれば追加してください。(defaultは httpです）
+* url_hostは、CDNのhost名を設定します。datastore側のurl_hostに設定することで、 `url_for` methodで期待するhostを返してくれるようになります。（何も設定しないと、bucket名から生成したs3のホスト名です）
+
+== 最終的な、configure
+
+参考までに掲載しておきますね。
+
+https://gist.github.com/kozyty/d1eb6a89cb7e4a1c8a93028dc6d19ea8
+
+ポイントとしては、shaをquery string にせず、pathに入れたりできるので、それをやってます。
+
+== 参考
+みなさんのアウトプットに感謝します。
+
+* https://github.com/markevans/dragonfly-s3_data_store/blob/master/lib/dragonfly/s3_data_store.rb[markevans/dragonfly-s3_data_store/s3_data_store.rb]
+* http://qiita.com/shimbaco/items/7ab547a9eceb37793f3a[]
+* http://qiita.com/anoworl/items/0e3f1643ef794de058df[]
+* http://qiita.com/anoworl/items/35e75a20e70d2ad0f658[]
+
+// Meta情報
+:hp-alt-title: dragonfly-dynamic-s3-cdn
+:hp-tags: rails, dragonfly, cdn, s3
+:published_at: 2016-04-01
