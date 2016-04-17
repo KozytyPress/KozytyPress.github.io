@@ -1,0 +1,54 @@
+= pushStateのstateObjでハマった。
+
+どもども、フロントはそんなに得意じゃないのですが、かなりハマったバグだったので一応Qiitaに投稿しておこうとおもいます。
+
+== pushStateすると、Chromeが謎の挙動
+
+現象はちょっと説明しにくいので割愛しますが、pushStateするとChromeのブラウザバックの挙動が謎の動きをするようになった。
+原因を調査していたら、pushStateのstateObjectの扱いが問題だったことがわかったので共有しておきたいと思います。
+
+== pushStateとは
+
+[quote, 'https://developer.mozilla.org/ja/docs/Web/Guide/DOM/Manipulating_the_browser_history#pushState()_.E3.83.A1.E3.82.BD.E3.83.83.E3.83.89[Manipulating the browser history - Web developer guide | MDN]']
+____
+state オブジェクト — state オブジェクトは pushState() によって作成される新しい履歴エントリに関連付けられる JavaScript オブジェクトです。ユーザーが新しいエントリに移動すればいつでも、popstate イベントが発火して、履歴エントリの state オブジェクトのコピーがイベントの state プロパティへと含まれることとなります。
+
+state オブジェクトは何であってもシリアライズされます。Firefox はユーザーのディスクに state オブジェクトを保存し、ユーザーがブラウザを再起動した際に state オブジェクトを復元するため、シリアライズされた状態での state オブジェクトの最大文字数は640000文字と、サイズの制限がされています。シリアライズ後にこの最大文字数を上回ることになる state オブジェクトを pushState() に渡した場合、pushState()は例外を投げます。これを上回るスペースが必要な場合、sessionStorage または localStorage の使用を推奨します。
+____
+
+== 今回重要なのは
+
+`state オブジェクトは何であってもシリアライズされます。` 
+
+== 実際にハマった部分
+
+最初、stateObjをテキストにしていました。
+
+[source, javascript]
+----
+var stateObj = "bar";
+history.pushState(stateObj, "page 2", "bar.html");
+----
+
+これでもね、一応期待する挙動は実現できるんですよ。なので特に違和感なくそのまま実装していたんですよね…。
+どうやらオブジェクト化しないとダメらしい
+
+- ↑のところにも書いてあるので当たり前なのだけど、オブジェクトでないとダメみたいでした。
+- オブジェクトならStringオブジェクトとかでもいいのかどうかは未確認
+
+解決後
+
+[source, javascript]
+----
+var stateObj = { foo: "bar" };
+history.pushState(stateObj, "page 2", "bar.html");
+----
+
+あー、スッキリ。
+ドキュメントはちゃんと見ようね。というお話でした。
+
+
+// Meta情報
+:hp-alt-title: pushState stateObj 
+:hp-tags: javascript
+:published_at: 2015-02-27
