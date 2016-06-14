@@ -1,10 +1,10 @@
-# WWDC2016 で発表された iOS 10 のAPIについて まとめ
+= WWDC2016 で発表された iOS 10 のAPIについて まとめ
 
 もう寝る間を惜しんでリアルタイムで発表を聞くのを2年前からやめてしまったんですが、未だにAPIをさくっと試したりDiffをまとめてくれたりする方は多いので助かります。
 
 以下は、自分用に備忘録的にまとめておくものとします。たぶん、今日1日で色々試したり追記したりするので、よかったらご利用ください。
 
-## とりあえず試したい！そんな人はDownloadしよう
+== とりあえず試したい！そんな人はDownloadしよう
 
 すでに Downloadもできるようになっているので、試したい方はこちらです。
 
@@ -12,19 +12,24 @@ Download: https://developer.apple.com/download/
 
 好例ですが、iOS10のインストールは、古い「iPhone 5s」で、Xcode 8 betaは、「Xcode8」としてインストールして試したいと思います。ｗ
 
-## Qiitaの最速記事まとめ
+== Qiitaの最速記事まとめ
 
 
-- [API Diffsから見る iOS 10 の新機能 #WWDC2016 - Qiita](http://qiita.com/shu223/items/9ac3261cdbf2a35468ed)
-- [WWDC2016で公開されたSampleコード集 - Qiita](http://qiita.com/ken0nek/items/bd942e88645a610a386c)
-- [iOS 9.3からiOS 10.0へのAPI変更点（リンク集） - Qiita](http://qiita.com/ken0nek/items/e423733fd1066071183a)
+* link:http://qiita.com/shu223/items/9ac3261cdbf2a35468ed[API Diffsから見る iOS 10 の新機能 #WWDC2016 - Qiita]
+* link:http://qiita.com/ken0nek/items/bd942e88645a610a386c[WWDC2016で公開されたSampleコード集 - Qiita]
+* link:http://qiita.com/ken0nek/items/e423733fd1066071183a[iOS 9.3からiOS 10.0へのAPI変更点（リンク集） - Qiita]
 
 ## WWDC2016のまとめ
 
 読んでいてわかりやすかったものを記載しておきます。
 
-- [WWDC 2016 基調講演発表内容まとめ](http://blog.huin.me/2016/06/13/wwdc-2016-keynote/)
-
+* link:http://blog.huin.me/2016/06/13/wwdc-2016-keynote/[WWDC 2016 基調講演発表内容まとめ]
 
 リアルタイム感あって臨場感あるので好き
-- [【WWDCまとめ完全版】Appleリアルタイム速報。4つのプラットフォームが進化。Siri、Map、Messageなど開発者に解放へ : ギズモード・ジャパン](http://www.gizmodo.jp/2016/06/apple_wwdc_2016_liveblog.html)
+
+* link:http://www.gizmodo.jp/2016/06/apple_wwdc_2016_liveblog.htm[【WWDCまとめ完全版】Appleリアルタイム速報。4つのプラットフォームが進化。Siri、Map、Messageなど開発者に解放へ : ギズモード・ジャパン]
+l
+// Meta情報
+:hp-alt-title: wwdc2016-summary
+:hp-tags: WWDC, iOS, macOS, API, Xcode
+:published_at: 2016-06-14
