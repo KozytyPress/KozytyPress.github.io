@@ -1,5 +1,7 @@
 = 「Slack入門」という本を執筆しました。
 
+image::http://blog.kozyty.com/images/slack-book.jpg[]
+
 == 2016/6/28 に技術評論社より発売されます。
 
 この度、共著で参加させていただいた本が発売になります。
