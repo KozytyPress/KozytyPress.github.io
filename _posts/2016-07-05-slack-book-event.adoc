@@ -1,0 +1,10 @@
+= 「Slack入門発売記念LT大会」で執筆者として発表してきました。
+
+「SlackのPublicChannnelを中心に組み立てるChatOps」というタイトルで、Slackの導入、Slackのオープンチャネル文化による恩恵、ChatOpsとSlackの親和性、Slack運用事例などを紹介しました。
+
+<script async class="speakerdeck-embed" data-id="497f3e4104d04030b37b97e65748b67b" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+// Meta情報
+:hp-alt-title: slack-book-event
+:hp-tags: slack, books, chatops
+:published_at: 2016-07-05
